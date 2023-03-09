@@ -10,7 +10,10 @@
     <!-- font icons -->
     <link rel="stylesheet" href="themify-icons.css">
     <!-- Bootstrap + Meyawo main styles -->
-	<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+	<!-- JQuery WA -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
 
@@ -119,20 +122,19 @@
         <div class="container text-center">
             <h6 class="section-title mb-5">Hubungi Saya</h6>
             <!-- contact form -->
-            <form action="https://wa.me/6281999750983?text=Halo%20Heru%0A%0ASaya%20%2A%nama%%2A%20%2C%pesan%" class="contact-form col-md-10 col-lg-8 m-auto">
+            <form class="contact-form col-md-10 col-lg-8 m-auto">
                 <div class="form-row">
                     <div class="form-group col-sm-12">
-                        <input type="text" name="nama" size="50" class="form-control" placeholder="Masukkan Namamu" required>                 
+                        <input type="text" name="nama" id="nama" size="50" class="form-control" placeholder="Masukkan Namamu" autocomplete="off" required>                 
                     </div>
-                    <!-- <div class="form-group col-sm-6">
-                        <input type="email" class="form-control" placeholder="Masukkan Email"requried>                 
-                    </div> -->
                     <div class="form-group col-sm-12">
-                        <input type=text" name="pesan" id="comment" rows="6"   class="form-control" placeholder="Masukkan pesanmu disini" required>
+                        <textarea name="pesan" id="pesan" rows="6"   class="form-control" placeholder="Masukkan pesanmu disini" autocomplete="off" required></textarea>
                     </div>
                     <div class="form-group col-sm-12 mt-3">
-                        <input type="submit" value="Kirim" class="btn btn-outline-primary rounded">                  
+                        <input type="submit" value="Kirim" class="btn btn-outline-primary rounded send">                  
                     </div>
+
+                    <div id="text-info"></div>
                 </div>  
             </form><!-- end of contact form -->
         </div><!-- end of container -->
@@ -152,6 +154,40 @@
             </div>
         </footer>
     </div> <!-- end of page footer -->
+	
+	<!-- Script Pesan Whatsapp -->
+    <script>
+        $(document).on('click','.send', function(){
+    /* Inputan Formulir */
+    var input_nama    = $("#nama").val(),
+        input_pesan   = $("#pesan").val();
+ 
+    /* Pengaturan Whatsapp */
+    var walink      = 'https://api.whatsapp.com/send',
+        phone       = '6281999750983',
+        text        = 'Halo Heru, ',
+        text_yes    = 'Pesan Anda berhasil terkirim.',
+        text_no     = 'Isilah formulir terlebih dahulu.';
+ 
+    /* Smartphone Support */
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        var walink = 'whatsapp://send';
+    }
+ 
+    if(input_nama != ""){
+        /* Whatsapp URL */
+        var checkout_whatsapp = walink + '?phone=' + phone + '&text=' + text + '%0A%0A' +
+            'Saya '+'*'+ input_nama +'*'+ ', ' + input_pesan;
+ 
+        /* Whatsapp Window Open */
+        window.open(checkout_whatsapp,'_blank');
+        document.getElementById("text-info").innerHTML = '<div class="alert alert-success">'+text_yes+'</div>';
+    } else {
+        document.getElementById("text-info").innerHTML = '<div class="alert alert-danger">'+text_no+'</div>';
+    }
+    });
+    </script>
+    <!-- End Script Wa -->
 	
 	<!-- core  -->
     <script src="jquery-3.4.1.js"></script>
